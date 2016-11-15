@@ -21,7 +21,7 @@ RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-
     /usr/bin/apt-get -y purge git php5-dev libpcre3-dev build-essential gcc make && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN /bin/echo 'extension=phalcon.so' >/etc/php5/mods-available/phalcon.ini
 RUN /usr/sbin/php5enmod phalcon
-WORKDIR /var/www/phalcon/web
+WORKDIR /var/www/phalcon
 RUN /bin/echo '<html><body><h1>It works!</h1></body></html>' > /var/www/phalcon/web/index.html
 
 EXPOSE 80
