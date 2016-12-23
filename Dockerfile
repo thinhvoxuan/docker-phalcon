@@ -21,8 +21,7 @@ RUN /usr/sbin/php5enmod phalcon
 WORKDIR /var/www/phalcon/web
 RUN /bin/echo '<html><body><h1>It works!</h1></body></html>' > /var/www/phalcon/web/index.html
 
-RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
-
+#RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 EXPOSE 80
 EXPOSE 443
