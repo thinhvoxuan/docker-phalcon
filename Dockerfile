@@ -12,8 +12,8 @@ RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-phalcon 001-phalcon-ssl
 
 WORKDIR /tmp
 # Run build process on one line to avoid generating bloat via intermediate images
-RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-dev php5-curl php5-mysqlnd php5-cli php5-gd php5-mcrypt php5-intl libpcre3-dev gcc make && \
-    /usr/bin/git clone --depth=1 git://github.com/phalcon/cphalcon.git && \
+RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-xdebug php5-dev php5-curl php5-mysqlnd php5-cli php5-gd php5-mcrypt php5-intl libpcre3-dev gcc make && \
+    /usr/bin/git clone --branch v3.0.1 --depth=1 git://github.com/phalcon/cphalcon.git && \
     cd cphalcon/build/ && \
     ./install && \
     cd /tmp && \
@@ -24,6 +24,8 @@ RUN /usr/sbin/php5enmod phalcon
 WORKDIR /var/www/phalcon/web
 RUN /bin/echo '<html><body><h1>It works!</h1></body></html>' > /var/www/phalcon/web/index.html
 WORKDIR /var/www/phalcon
+
+#RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 EXPOSE 80
 EXPOSE 443
