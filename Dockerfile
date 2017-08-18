@@ -1,7 +1,7 @@
-FROM eboraas/apache
+FROM ubuntu:14.04
 MAINTAINER Thinh Voxuan <thinhvoxuan@gmail.com>
 
-RUN apt-get update && apt-get -y install php5 && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install apache2 php5 && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN /usr/sbin/a2dismod 'mpm_*' && /usr/sbin/a2enmod mpm_prefork
 
 RUN /usr/sbin/a2enmod rewrite
