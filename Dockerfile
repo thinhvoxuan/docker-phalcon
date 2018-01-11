@@ -9,7 +9,7 @@ RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-phalcon 001-phalcon-ssl
 
 WORKDIR /tmp
 # Run build process on one line to avoid generating bloat via intermediate images
-RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-xdebug php5-dev php5-curl php5-mysqlnd php5-cli php5-gd imagemagick php5-imagick php5-mcrypt php5-intl libpcre3-dev gcc make && \
+RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-xdebug php5-dev php5-curl php5-mysqlnd php5-cli php5-gd imagemagick php5-imagick php5-mcrypt php5-intl libpcre3-dev gcc make vim && \
     /usr/bin/git clone --branch v3.0.1 --depth=1 git://github.com/phalcon/cphalcon.git && \
     cd cphalcon/build/ && \
     ./install && \
@@ -17,6 +17,14 @@ RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl php5-
     /bin/rm -rf /tmp/cphalcon/ && \
     /usr/bin/apt-get -y purge git php5-dev libpcre3-dev build-essential gcc make && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN /bin/echo 'extension=phalcon.so' >/etc/php5/mods-available/phalcon.ini
+
+#Append xdebug configuration to /etc/php5/mods-available/xdebug.ini
+RUN /bin/echo "xdebug.remote_enable=1" >> /etc/php5/mods-available/xdebug.ini
+RUN /bin/echo "xdebug.remote_host=10.254.254.254" >> /etc/php5/mods-available/xdebug.ini
+RUN /bin/echo "xdebug.remote_port=9001" >> /etc/php5/mods-available/xdebug.ini
+RUN /bin/echo "xdebug.idekey=\"PHPSTORM\"" >> /etc/php5/mods-available/xdebug.ini
+RUN /bin/echo "xdebug.remote_autostart=1" >> /etc/php5/mods-available/xdebug.ini
+
 RUN /usr/sbin/php5enmod phalcon
 WORKDIR /var/www/phalcon/web
 RUN /bin/echo '<html><body><h1>It works!</h1></body></html>' > /var/www/phalcon/web/index.html
