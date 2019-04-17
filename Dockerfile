@@ -13,7 +13,7 @@ RUN /usr/sbin/a2enmod ssl rewrite expires headers
 RUN apt-get update && apt-get -y install php php-mysql libapache2-mod-php && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN /usr/sbin/a2enmod mpm_prefork
 
-RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl imagemagick php-xml php-imagick php-xdebug php-dev php-curl php-mysqlnd php-cli php-gd php-mcrypt php-intl php-redis libpcre3-dev gcc make && \
+RUN /usr/bin/apt-get update && apt-get -y install git build-essential curl imagemagick php-xml php-zip php-imagick php-xdebug php-dev php-curl php-mysqlnd php-cli php-gd php-mcrypt php-intl php-redis libpcre3-dev gcc make && \
     /usr/bin/git clone --branch v3.0.1 --depth=1 git://github.com/phalcon/cphalcon.git && \
     cd cphalcon/build/ && \
     ./install && \
