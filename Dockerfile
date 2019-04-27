@@ -4,12 +4,14 @@ RUN apt-get update && apt-get install -y build-essential libpcre3-dev
 
 RUN /usr/sbin/a2enmod ssl rewrite expires headers mpm_prefork
 
-RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libxml2-dev curl libcurl3 libcurl3-dev libmcrypt-dev mysql-client  && \
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libxml2-dev curl libcurl3 libcurl3-dev libmcrypt-dev mysql-client libzip-dev zip && \ 
     pecl install redis xdebug
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install gd dom xml curl mcrypt gd intl pdo_mysql && \
-    docker-php-ext-enable redis
+    docker-php-ext-enable redis && \
+    docker-php-ext-configure zip --with-libzip && \
+    docker-php-ext-install zip
 
 RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
@@ -35,4 +37,3 @@ ADD 001-phalcon-ssl.conf /etc/apache2/sites-available/
 RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-phalcon
 
 EXPOSE 80
-EXPOSE 443
