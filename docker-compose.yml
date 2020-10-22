@@ -1,8 +1,0 @@
-version: "3"
-services:
-  website:
-    build: .
-    volumes:
-      - ./src/web/info.php:/var/www/phalcon/web/info.php
-    ports: 
-      - 80:80
